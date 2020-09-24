@@ -1,60 +1,62 @@
-<template>
-  <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
+ <template>
+  <v-app id="inspire">
+    <v-navigation-drawer v-model="drawer" app>
+      <v-list dense>
+        <v-list-item link :to="item.rota" v-for="(item, index) in rotas" :key="index">
+          <v-list-item-action>
+            <v-icon>{{item.icone}}</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>{{item.nome}}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
+    <v-app-bar app color="indigo" dark>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-toolbar-title>Application</v-toolbar-title>
     </v-app-bar>
 
     <v-main>
-      <HelloWorld/>
+      <router-view></router-view>
     </v-main>
+
+    <v-footer color="indigo" app>
+      <span class="white--text">My App - High Tech &copy; {{ new Date().getFullYear() }}</span>
+    </v-footer>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
-
 export default {
-  name: 'App',
-
-  components: {
-    HelloWorld,
+  props: {
+    source: String
   },
-
   data: () => ({
-    //
-  }),
+    drawer: null,
+    rotas: [
+      {
+        nome: "Home",
+        icone: "mdi-home",
+        rota: "/"
+      },
+      {
+        nome: "Contas",
+        icone: "mdi-cash-usd",
+        rota: "/contas"
+      },
+      {
+        nome: "Usuarios",
+        icone: "mdi-account",
+        rota: "/usuarios"
+      },
+      {
+        nome: "Relatorios",
+        icone: "mdi-align-vertical-bottom",
+        rota: "/relatorios"
+      }
+    ]
+  })
 };
 </script>
